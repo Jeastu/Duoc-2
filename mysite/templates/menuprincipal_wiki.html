@@ -1,0 +1,69 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}menu principal-The forest Wiki{% endblock%} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/estilo.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div style="background-color: black">
+    <main>
+      <div class="wiki">
+        <div class="contenedor">
+          <h3 class="titulo">The Forest Wiki</h3>
+          <p class="descripcion">
+            Pagina Oficial de the Forest creada por Programadores de Duoc Uc
+            fanes del juego, ¡Descubre y comparte tus conocimientos!
+          </p>
+          <a
+            href="https://www.eneba.com/latam/steam-the-forest-steam-key-global"
+            ><button class="btn btn-dark">Compra the Forest</button></a
+          >
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="itemtf-recomendadas contenedor">
+          <div class="contenedor-titulo-controles">
+            <h3 id="fuente">Contenido The Forest</h3>
+            <div class="indicadores"></div>
+          </div>
+
+          <div class="contenedor-principal">
+            <button
+              role="button"
+              id="flecha-izquierda"
+              class="flecha-izquierda"
+            >
+              <i class="fas fa-angle-left"></i>
+            </button>
+
+            <div class="contenedor-carousel">
+              <div class="carousel">
+                {% for card in cards %}
+                <div class="pelicula">
+                  <a href="{% url card.url %}"
+                    ><img src="{% static card.image %}" alt="{{ card.title }}"
+                  /></a>
+                  <center><p style="color: white">{{ card.title }}</p></center>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <button role="button" id="flecha-derecha" class="flecha-derecha">
+              <i class="fas fa-angle-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.js"></script>
+      <script
+        src="https://kit.fontawesome.com/2c36e9b7b1.js"
+        crossorigin="anonymous"
+      ></script>
+      <script src="{% static 'js/main.js' %}"></script>
+    </main>
+  </div>
+  {% endblock %}

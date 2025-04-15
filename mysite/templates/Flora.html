@@ -1,0 +1,54 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}Flora-The forest Wiki{% endblock%} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/flora.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div id="fondo">
+  <section class="colorl">
+    <div class="letra container">
+        <div class="center-titulo">
+            <h1 id="titulo">Flora</h1>
+        </div>
+        <div class="w-33 text-center mb-3">
+            <button class="btn btn-dark">Editar</button>
+        </div>
+        <p id="caja_bienvenida" class="text-center">
+          A continuación, se listan las plantas y hongos que puedes encontrar en The Forest. Algunas son curativas, otras venenosas.
+      </p>
+
+      <div class="table-responsive mt-4">
+        <table class="table text-warning border border-secondary text-center align-middle">
+              <thead class="table-warning text-dark">
+                  <tr>
+                      <th>N°</th>
+                      <th>Imagen</th>
+                      <th>Tipo</th>
+                      <th>Descripción</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for planta in flora %}
+                  <tr>
+                      <td>{{ planta.numero }}</td>
+                      <td>
+                          <img src="{% static planta.imagen %}" alt="Planta {{ planta.numero }}" style="max-height: 80px;" class="img-fluid">
+                      </td>
+                      <td>{{ planta.tipo }}</td>
+                      <td>{{ planta.descripcion }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </section>
+  <script 
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+{% endblock %}

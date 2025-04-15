@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}Historia-The forest Wiki{% endblock%} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/historia.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div id="fondo">
+  <section class="container mt-5 text-warning">
+    <div class="center-titulo mb-4">
+      <h1 id="titulo" class="text-center">Historia</h1>
+    </div>
+
+    <!-- Slider dinámico -->
+    <div id="historiaSlider" class="carousel slide mb-5" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for imagen in historia_slider %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <img src="{% static imagen %}" class="d-block w-100" alt="Historia {{ forloop.counter }}">
+        </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#historiaSlider" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#historiaSlider" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+
+    <!-- Texto de historia -->
+    <div class="bg-dark p-4 rounded text-warning">
+      <p style="white-space: pre-line;">{{ historia_texto }}</p>
+    </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+  
+{% endblock %}

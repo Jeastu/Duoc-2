@@ -1,0 +1,64 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}Consumibles-The forest Wiki{% endblock%} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/consumibles.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<div id="fondo">
+  <section class="colorl">
+    <section class="letra">
+      <div class="container">
+        <div class="center-titulo">
+          <h1 id="titulo">Consumibles</h1>
+        </div>
+        <div class="w-33 text-center mb-3">
+          <button class="btn btn-dark">Editar</button>
+        </div>
+        <p id="caja_bienvenida" class="text-center">
+          Los consumibles son esenciales para la supervivencia. Pueden restaurar o disminuir salud, hambre, hidratación y energía.
+        </p>
+
+        <div class="table-responsive mt-4">
+          <table class="table table-dark table-bordered text-center align-middle">
+            <thead>
+              <tr>
+                <th rowspan="2">Consumible</th>
+                <th colspan="4">Modo Normal</th>
+                <th colspan="4">Modo Difícil</th>
+              </tr>
+              <tr>
+                <th>Hambre</th><th>Agua</th><th>Vida</th><th>Energía</th>
+                <th>Hambre</th><th>Agua</th><th>Vida</th><th>Energía</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in consumibles %}
+              <tr>
+                <td>
+                  <img src="{% static item.imagen %}" alt="{{ item.nombre }}" style="max-height: 50px;" class="img-fluid"><br>
+                  {{ item.nombre }}
+                </td>
+                <td>{{ item.normal.hambre }}</td>
+                <td>{{ item.normal.agua }}</td>
+                <td>{{ item.normal.vida }}</td>
+                <td>{{ item.normal.energia }}</td>
+                <td>{{ item.dificil.hambre }}</td>
+                <td>{{ item.dificil.agua }}</td>
+                <td>{{ item.dificil.vida }}</td>
+                <td>{{ item.dificil.energia }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+{% endblock %}

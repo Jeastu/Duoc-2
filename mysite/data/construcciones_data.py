@@ -1,0 +1,92 @@
+construcciones_data = [
+    {
+        "nombre": "Fogata básica",
+        "imagen": "img/Construcciones/BasicFire.webp",
+        "materiales": ["7 Hojas", "2 Palos"],
+        "descripcion": "La fogata básica es más útil cuando el jugador está fuera de casa y necesita una protección fiable contra el frío o quiere cocinar carne rápidamente, pero esta fogata dura un corto periodo de tiempo.",
+    },
+    {
+        "nombre": "Fogata avanzada",
+        "imagen": "img/Construcciones/FirePit.webp",
+        "materiales": ["7 Hojas", "4 Palos", "7 Rocas"],
+        "descripcion": "La fogata avanzada puede servir como fuente de luz, calor y puede usarse para cocinar carne. Esta fogata en comparación a la otra, no se rompe, solo se apaga.",
+    },
+    {
+        "nombre": "Hoguera",
+        "imagen": "img/Construcciones/Bonfire.webp",
+        "materiales": ["20 Hojas", "10 Palos", "5 Rocas"],
+        "descripcion": "La hoguera actualmente es el fuego más grande del juego, proporciona la mayor cantidad de luz y calor, pero no puede cocinar alimentos.",
+    },
+    {
+        "nombre": "Refugio de caza",
+        "imagen": "img/Construcciones/HuntingShelter.webp",
+        "materiales": ["7 Hojas", "6 Rocas", "7 Troncos"],
+        "descripcion": "El propósito del refugio de caza es poder guardar el progreso del jugador y ser un lugar en el cual puedes dormir y recuperar vida, energía, etc. Después de un uso, este refugio se destruirá.",
+    },
+    {
+        "nombre": "Cabaña pequeña",
+        "imagen": "img/Construcciones/SmallCabin.webp",
+        "materiales": ["13 Hojas"],
+        "descripcion": "La cabaña pequeña es un refugio que no tiene piso, aunque tiene una puerta y una ventana. Permite al jugador guardar y dormir. Dormir en la cabina pequeña restaurará la fatiga y podrás guardar el juego en el interior.",
+    },
+    {
+        "nombre": "Cabaña grande",
+        "imagen": "img/Construcciones/LogCabin.webp",
+        "materiales": ["82+ Troncos"],
+        "descripcion": "Dormir en la cabina grande restaurará la fatiga y podrás guardar el juego en el interior. Tiene dos ventanas abiertas, por lo que encender un fuego en el interior puede atraer enemigos.",
+    },
+    {
+        "nombre": "Jaula para conejos",
+        "imagen": "img/Construcciones/RabbitCage.webp",
+        "materiales": ["13 Palos"],
+        "descripcion": "Una jaula de conejos permite almacenar y criar hasta siete conejos en una jaula.",
+    },
+    {
+        "nombre": "Colector de agua",
+        "imagen": "img/Construcciones/WaterCollector.webp",
+        "materiales": ["4 Palos", "1 Caparazón de tortuga"],
+        "descripcion": "El colector de agua recoge agua de lluvia limpia y potable que se puede beber o recoger con una olla vieja o el odre.",
+    },
+    {
+        "nombre": "Reserva de palos (pequeño)",
+        "imagen": "img/Construcciones/StickHolderSmall.webp",
+        "materiales": ["6 Palos"],
+        "descripcion": "Permite almacenar palos del inventario del jugador y recogerlos cuando se desee.",
+    },
+    {
+        "nombre": "Marcador",
+        "imagen": "img/Construcciones/StickMarker.webp",
+        "materiales": ["2 Palos", "2 Rocas", "1 Tela"],
+        "descripcion": "Los marcadores de palo agregan un marcador al HUD para que el jugador recuerde ubicaciones importantes.",
+    },
+    {
+        "nombre": "Trineo de troncos",
+        "imagen": "img/Construcciones/LogSled.webp",
+        "materiales": ["21 Palos"],
+        "descripcion": "El trineo de troncos sirve para almacenar y transportar troncos, rocas, palos, torsos y cuerpos. Es resistente a casi todo.",
+    },
+    {
+        "nombre": "Casa del árbol (Alpina)",
+        "imagen": "img/Construcciones/AlpineTreeHouse.webp",
+        "materiales": ["18 Palos", "29 Troncos", "1 Cuerda"],
+        "descripcion": "La casa del árbol alpina tiene un techo triangular, balcón y barandillas. Permite dormir, guardar y sirve de refugio seguro contra caníbales.",
+    },
+    {
+        "nombre": "Trampa de animales",
+        "imagen": "img/Construcciones/AnimalTrap.webp",
+        "materiales": ["13 Palos"],
+        "descripcion": "Permite atrapar un conejo, lagarto, ardilla, mapache o jabalí sin matarlo.",
+    },
+    {
+        "nombre": "Casa del árbol",
+        "imagen": "img/Construcciones/TreeHouse.webp",
+        "materiales": ["35 Troncos", "1 Cuerda (opcional)"],
+        "descripcion": "La casa del árbol permite dormir y guardar el progreso. Se accede mediante una cuerda.",
+    },
+    {
+        "nombre": "Gazebo",
+        "imagen": "img/Construcciones/Gazebo.webp",
+        "materiales": ["60 Palos", "30+ Troncos"],
+        "descripcion": "El gazebo sirve únicamente para decoración. Es la estructura con mayor cantidad de palos requerida.",
+    },
+]

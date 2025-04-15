@@ -1,0 +1,136 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}Constucciones-The forest Wiki{% endblock%} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/Construcciones.css' %}" />
+{% endblock %}
+
+{% block content %}
+{% with request.GET.edit as edit_mode %}
+  <div id="fondo">
+    <div class="container">
+      <section class="colorl">
+        <div class="letra">
+          <div class="container">
+            <div class="center-titulo">
+              <h1 id="titulo">Construcciones</h1>
+            </div>
+            <div class="w-33">
+              {% if request.user.is_staff %}
+              <div class="center">
+                <a href="?edit=true" class="btn btn-dark">Editar</a>
+              </div>
+              {% endif %}
+            </div>
+            <div class="center">
+              <p id="caja_bienvenida">
+                La construcción es una mecánica de juego que permite al jugador
+                construir objetos como fogatas y refugios utilizando materiales
+                accesibles, estas construccion ayudaran al jugador a sobrevivir
+                en su dia a dia o simplemente serviran de adorno en The forest,
+                desde fogatas que controlan la temperatura del ambiente y cocina
+                la comida hasta un gazebo que es una estructura que solo sirve
+                para decoracion.
+              </p>
+            </div>
+            {% if messages %}
+              <div class="px-3 mt-3">
+                {% for message in messages %}
+                  <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <div class="container">
+              <div class="d-block d-sm-block d-md-none">
+                <h5 class="center margin-tabla">Orden de datos:</h5>
+
+                <p class="center">
+                  1er bloque = Construcciones<br />2do bloque = Materiales<br />3er
+                  bloque = Descripcion
+                </p>
+              </div>
+              <div class="margin-tabla">
+                <div class="row">
+                  <div
+                    class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center"
+                  >
+                    <h5>Construccion</h5>
+                  </div>
+                  <div
+                    class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center"
+                  >
+                    <h5>Materiales</h5>
+                  </div>
+                  <div
+                    class="d-none d-sm-none d-md-block col-6 border border-secondary fondo-tabla center"
+                  >
+                    <h5>Descripcion</h5>
+                  </div>
+                  {% if request.user.is_staff and edit_mode %}
+                  <div class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center">
+                    <h5>Acciones</h5>
+                  </div>
+                  {% endif %}
+                </div>
+                <div class="letra">
+                  {% for construccion in construcciones %}
+                  <div class="row">
+                    <div
+                      class="col border border-secondary fondo-tabla center"
+                    >
+                      <p class="center-titulo">
+                        {% if construccion.imagen %}
+                        <img
+                          src="{{ construccion.imagen.url }}"
+                          alt="{{ construccion.nombre }}"
+                          class="imagen img-fluid"
+                        />
+                      {% else %}
+                        Sin imagen
+                      {% endif %}
+                      <br />{{ construccion.nombre }}
+                      </p>
+                    </div>
+                    <div class="col border border-secondary fondo-tabla">
+                      <ol>
+                        {% for material in construccion.get_materiales_list %}
+                        <li class="lil">{{ material }}</li>
+                        {% endfor %}
+                      </ol>
+                    </div>
+                    <div
+                      class="col-6 border border-secondary fondo-tabla center"
+                    >
+                      <p>{{ construccion.descripcion }}</p>
+                    </div>
+                    {% if request.user.is_staff and edit_mode %}
+                    <div class="col border border-secondary fondo-tabla center">
+                      <a href="{% url 'editar_construccion' construccion.id %}" class="btn btn-warning btn-sm">Editar</a>
+                      <form method="POST" action="{% url 'eliminar_construccion' construccion.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                      </form>
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    {% endwith %}
+  </div>
+{% endblock %}

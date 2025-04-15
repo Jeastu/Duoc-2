@@ -1,0 +1,77 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}Foro wiki-The forest Wiki{% endblock%} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/foro.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div id="fondo1">
+<div class="container">
+    <H5>Comenta respecto al juego!</H5>
+    <div class="row comentarios justify-content-center">
+        <div class="col-6">
+            <form action="" class="form_comentarios d-flex justify-content-end flex-wrap">
+                <textarea name="" id="" placeholder="Comentario"></textarea>
+                <button class="btn" type="button"> comentar</button>
+            </form>
+
+            <div class="media">
+                <img src="{% static 'img/img_wiki/user.png' %}"  alt="">
+                <div class="media-body">
+                    <p class="nombre">Vicente Echevarria <span>8:00 pm, Hoy</span></p>
+                    <p class="comentario">
+                            El juego esta buenardo, lo malo es que las mecanicas de los enemigo estan medias desbalanceadas segun mi opinion, ya que con cualquier alrma puedes matar a todos los enemigos muy facilmente..           
+                    </p>
+                    <div class="botones text-right">
+                        <a href="#"> Responder</a>
+                        <a href="#"> Editar</a>
+                        <a href="#"> Borrar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="media">
+                <img src="{% static 'img/img_wiki/userforest.png' %}" alt="">
+                <div class="media-body">
+                    <p class="nombre">Kevin Oyaneder <span>8:00 pm, Hoy</span></p>
+                    <p class="comentario">
+                        Yeah
+                        Perdonen, Kamehameha
+                        Después del tema del Tetris viene el Dragon Ball Rap
+                        Quien no haya seguido esta serie es porque no tiene infancia
+                        Big Bang Attack ataca desde el Planeta Namek
+                        Vegeta, Son Goku, rivalidades Saiyan
+                        (Allargat bastó) y es que en castellano raya
+                    </p>
+                    <div class="botones text-right">
+                        <a href="#"> Responder</a>
+                        <a href="#"> Editar</a>
+                        <a href="#"> Borrar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="media">
+                <img src="{% static 'img/img_wiki/user.png' %}"  alt="">
+                <div class="media-body">
+                    <p class="nombre">Alexis Jara <span>8:00 pm, Hoy</span></p>
+                    <p class="comentario">
+                        Odio es juego, alguien podria decirme que es lo que le ven por favor?????
+                    </p>
+                    <div class="botones text-right">
+                        <a href="#"> Responder</a>
+                        <a href="#"> Editar</a>
+                        <a href="#"> Borrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</div>
+{% endblock %}

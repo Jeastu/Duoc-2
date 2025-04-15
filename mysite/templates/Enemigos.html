@@ -1,0 +1,99 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}Enemigos-The forest Wiki{% endblock%} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/Enemigos.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div id="fondo">
+    <section class="colorl">
+      <section class="letra">
+        <div class="container">
+          <div class="center-titulo">
+            <h1 id="titulo">Enemigos</h1>
+          </div>
+          <div class="container">
+            <div class="w-33">
+              <div class="center">
+                <button class="btn btn-dark">Editar</button>
+              </div>
+            </div>
+            <div class="center">
+              <p id="caja_bienvenida">
+                Existe una gran variedad de enemigos dentro del juego capaces de
+                matar y destruir cualquier estructura que crees, algunos siendo
+                muy faciles de lidiar, pero otros que incluso lleguen a resultar
+                un gran reto durante la partida.
+              </p>
+            </div>
+          </div>
+          <div class="container">
+            <div class="d-block d-sm-block d-md-none">
+              <h5 class="center margin-tabla">Orden de datos:</h5>
+
+              <p class="center">
+                1er bloque = Enemigo<br />2do bloque = Tipo enemigo<br />3er
+                bloque =Descripcion enemigo
+              </p>
+            </div>
+            <div class="margin-tabla">
+              <div class="row">
+                <div
+                  class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
+                >
+                  <h5>Enemigo</h5>
+                </div>
+                <div
+                  class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
+                >
+                  <h5>Tipo enemigo</h5>
+                </div>
+                <div
+                  class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
+                >
+                  <h5>Descripcion</h5>
+                </div>
+              </div>
+            </div>
+            <div class="letra">
+              {% for enemigo in enemigos %}
+              <div class="row">
+                <div
+                  class="col-sm-4 border border-secondary fondo-tabla center separar-arriba"
+                >
+                  <p class="centrart">
+                    <img
+                      src="{% static enemigo.imagen %}"
+                      alt=""
+                      class="imagen img-fluid"
+                    /><br />{{ enemigo.nombre }}
+                  </p>
+                </div>
+                <div
+                  class="col-sm-4 border border-secondary fondo-tabla center"
+                >
+                  <p class="center-titulo tamannioletrat">{{ enemigo.tipo }}</p>
+                </div>
+                <div
+                  class="col-sm-4 border border-secondary fondo-tabla center"
+                >
+                  <p>{{ enemigo.descripcion }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </div>
+{% endblock %}
