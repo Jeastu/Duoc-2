@@ -190,3 +190,53 @@ def editar_construccion(request, id):
         form = ConstruccionForm(instance=construccion)
 
     return render(request, 'editar_construccion.html', {'form': form, 'construccion': construccion})
+
+
+
+# agregado de clima_chile
+
+import requests
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def clima_chile(request):
+    regiones = {
+        "arica y parinacota": {"lat": -18.478, "lon": -70.3126},
+        "tarapacá": {"lat": -20.2133, "lon": -70.1525},
+        "antofagasta": {"lat": -23.6524, "lon": -70.3954},
+        "atacama": {"lat": -27.3668, "lon": -70.3314},
+        "coquimbo": {"lat": -29.9533, "lon": -71.3395},
+        "valparaíso": {"lat": -33.0472, "lon": -71.6127},
+        "metropolitana": {"lat": -33.4489, "lon": -70.6693},
+        "ohiggins": {"lat": -34.1708, "lon": -70.7406},
+        "maule": {"lat": -35.4264, "lon": -71.6554},
+        "ñuble": {"lat": -36.6063, "lon": -72.1034},
+        "biobío": {"lat": -36.8201, "lon": -73.0444},
+        "araucanía": {"lat": -38.7359, "lon": -72.5904},
+        "los rios": {"lat": -39.8142, "lon": -73.2459},
+        "los lagos": {"lat": -41.4717, "lon": -72.9396},
+        "aysén": {"lat": -45.571, "lon": -72.068},
+        "magallanes": {"lat": -53.1625, "lon": -70.9081},
+    }
+
+    region = request.GET.get("region", "metropolitana").lower()
+    coords = regiones.get(region, regiones["metropolitana"])
+
+    try:
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={coords['lat']}&longitude={coords['lon']}&current_weather=true"
+        response = requests.get(url)
+        data = response.json()["current_weather"]
+        contexto = {
+            "region": region.title(),
+            "regiones": regiones,
+            "temperatura": data["temperature"],
+            "viento": data["windspeed"],
+            "clima_codigo": data["weathercode"],
+        }
+    except:
+        contexto = {
+            "error": "No se pudo obtener el clima",
+            "regiones": regiones
+        }
+
+    return render(request, "clima_chile.html", contexto)
