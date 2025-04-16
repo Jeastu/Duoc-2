@@ -78,11 +78,12 @@ WSGI_APPLICATION = 'the_forest_wiki.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'localhost:1521/FREEPDB1',
+        'NAME': 'localhost:1521/xepdb1',  
         'USER': 'system',
         'PASSWORD': 'Ora1234',
     }
 }
+
 
 
 # Password validation

@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from mysite.views import clima_chile  
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mysite.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+path("clima/", clima_chile, name="clima_chile"),

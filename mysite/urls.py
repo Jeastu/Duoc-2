@@ -17,6 +17,7 @@ from .views import (
     cerrar_sesion,
     eliminar_construccion,
     editar_construccion,
+    clima_chile,
 )
 
 urlpatterns = [
@@ -37,4 +38,5 @@ urlpatterns = [
     path("logout", cerrar_sesion, name="logout"),
     path('construcciones/eliminar/<int:pk>/', eliminar_construccion, name='eliminar_construccion'),
     path('construccion/<int:id>/editar/', editar_construccion, name='editar_construccion'),
+    path("clima/", clima_chile, name="clima_chile"),
 ]
