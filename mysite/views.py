@@ -3,7 +3,6 @@ from .data.cards_data import cards_data
 from .data.pueblos_data import pueblos_data
 from .data.ubicaciones_especificas_data import ubicaciones_especificas_data
 from .data.ubicaciones_variadas_data import ubicaciones_variadas_data
-from .data.animales_data import animales_data
 from .data.enemigos_data import enemigos_data
 from .data.armas_data import armas_data
 from .data.flora_data import flora_data
@@ -22,6 +21,15 @@ from django.contrib.auth import logout
 
 # Importación de Modelos
 from .models import Construccion
+from .models import Enemigo
+from .models import Planta
+from .models import Animal
+from .models import Pueblo, UbicacionEspecifica, UbicacionVariada
+
+@login_required
+def enemigos(request):
+    enemigos = Enemigo.objects.all()
+    return render(request, "Enemigos.html", {"enemigos": enemigos})
 
 
 @login_required
@@ -30,20 +38,21 @@ def home(request):
 
 @login_required
 def animales(request):
-    return render(request, "Animales.html", {"animales": animales_data})
+    animales = Animal.objects.all()
+    return render(request, "Animales.html", {"animales": animales})
+
 
 @login_required
 def lugarestf(request):
+    pueblos = Pueblo.objects.all()
+    especificas = UbicacionEspecifica.objects.all()
+    variadas = UbicacionVariada.objects.all()
 
-    return render(
-        request,
-        "Lugarestf.html",
-        {
-            "pueblos": pueblos_data,
-            "ubicaciones_especificas": ubicaciones_especificas_data,
-            "ubicaciones_variadas": ubicaciones_variadas_data,
-        },
-    )
+    return render(request, "Lugarestf.html", {
+        "pueblos": pueblos,
+        "ubicaciones_especificas": especificas,
+        "ubicaciones_variadas": variadas
+    })
 
 @login_required
 def enemigos(request):
@@ -54,9 +63,13 @@ def construcciones(request):
     construcciones = Construccion.objects.all()
     return render(request, "Construcciones.html", {"construcciones": construcciones})
 
+
 @login_required
 def flora(request):
-    return render(request, "Flora.html", {"flora": flora_data})
+    plantas = Planta.objects.all()
+    return render(request, "Flora.html", {"plantas": plantas})
+
+
 
 @login_required
 def armas(request):

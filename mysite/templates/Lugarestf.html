@@ -1,125 +1,103 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Lugares-The forest Wiki{% endblock%} 
+{% block title %}Lugares - The Forest Wiki{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/lugares.css' %}" />
+<link rel="stylesheet" href="{% static 'css/lugares.css' %}">
 {% endblock %}
 
 {% block content %}
-<div id="fondo1">
-    <!-- Pueblos-->
+<div id="fondo">
+  <section class="colorl">
+    <div class="letra container">
+      <div class="text-center mb-4">
+        <h1 class="text-warning">Lugares del Mapa</h1>
+        <p class="text-warning">
+          A continuación, se listan distintos tipos de lugares importantes en el mapa del juego. Se dividen en Pueblos, Ubicaciones Específicas y Variadas.
+        </p>
+      </div>
 
-    <center>
-      <h1 id="titulo1">Pueblos</h1>
-    </center>
-
-    <section class="color2 letra">
-      <section class="cajacard">
-        <div class="w-33">
-          <div class="center">
-            <button class="btn btn-dark">Editar</button>
-          </div>
-        </div>
-        <div class="container">
-          <div class="row row-cols-1 row-cols-md-3 g-4">
+      <!-- Pueblos -->
+      <h3 class="text-warning mb-3">🏕️ Pueblos</h3>
+      <div class="table-responsive mb-5">
+        <table class="table table-bordered text-warning text-center align-middle border border-secondary bg-dark">
+          <thead class="table-warning text-dark">
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
             {% for pueblo in pueblos %}
-            <div class="col">
-              <div
-                class="card h-100"
-                style="background-color: rgba(0, 0, 0, 0.541)"
-              >
-                <img
-                  src="{% static pueblo.imagen %}"
-                  class="card-img-top"
-                  alt="{{ pueblo.nombre }}"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{{ pueblo.nombre }}</h5>
-                  <p class="card-text">{{ pueblo.descripcion }}</p>
-                </div>
-              </div>
-            </div>
+            <tr>
+              <td>
+                <img src="{% static pueblo.imagen %}" alt="{{ pueblo.nombre }}" style="max-height: 175px;" class="img-fluid">
+              </td>
+              <td>{{ pueblo.nombre }}</td>
+              <td class="text-start">{{ pueblo.descripcion }}</td>
+            </tr>
             {% endfor %}
-          </div>
-        </div>
+          </tbody>
+        </table>
+      </div>
 
-        <!-- Ubicaciones especificas-->
-        <br />
-        <br />
-        <br />
-        <br />
-        <center>
-          <h1 id="titulo1">Ubicaciones especificas</h1>
-        </center>
-        <br />
-        <br />
-
-        <div class="container">
-          <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for ubicacion in ubicaciones_especificas %}
-            <div class="col">
-              <div
-                class="card h-100"
-                style="background-color: rgba(0, 0, 0, 0.541)"
-              >
-                <img
-                  src="{% static ubicacion.imagen %}"
-                  class="card-img-top"
-                  alt="{{ ubicacion.nombre }}"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{{ ubicacion.nombre }}</h5>
-                  <p class="card-text">{{ ubicacion.descripcion }}</p>
-                </div>
-              </div>
-            </div>
+      <!-- Específicas -->
+      <h3 class="text-warning mb-3">📍 Ubicaciones Específicas</h3>
+      <div class="table-responsive mb-5">
+        <table class="table table-bordered text-warning text-center align-middle border border-secondary bg-dark">
+          <thead class="table-warning text-dark">
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for especifico in ubicaciones_especificas %}
+            <tr>
+              <td>
+                <img src="{% static especifico.imagen %}" alt="{{ especifico.nombre }}" style="max-height: 400px;" class="img-fluid">
+              </td>
+              <td>{{ especifico.nombre }}</td>
+              <td class="text-start">{{ especifico.descripcion }}</td>
+            </tr>
             {% endfor %}
-          </div>
-        </div>
+          </tbody>
+        </table>
+      </div>
 
-        <!--Ubicaciones Variadas-->
-        <br />
-        <br />
-        <br />
-        <br />
-        <center>
-          <h1 id="titulo1">Ubicaciones Variadas</h1>
-        </center>
-        <br />
-        <br />
-
-        <div class="container">
-          <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for ubicacion in ubicaciones_variadas %}
-            <div class="col">
-              <div
-                class="card h-100"
-                style="background-color: rgba(0, 0, 0, 0.541)"
-              >
-                <img
-                  src="{% static ubicacion.imagen %}"
-                  class="card-img-top"
-                  alt="{{ ubicacion.nombre }}"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{{ ubicacion.nombre }}</h5>
-                  <p class="card-text">{{ ubicacion.descripcion }}</p>
-                </div>
-              </div>
-            </div>
+      <!-- Variadas -->
+      <h3 class="text-warning mb-3">🌄 Ubicaciones Variadas</h3>
+      <div class="table-responsive mb-5">
+        <table class="table table-bordered text-warning text-center align-middle border border-secondary bg-dark">
+          <thead class="table-warning text-dark">
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for variada in ubicaciones_variadas %}
+            <tr>
+              <td>
+                <img src="{% static variada.imagen %}" alt="{{ variada.nombre }}" style="max-height: 400px;" class="img-fluid">
+              </td>
+              <td>{{ variada.nombre }}</td>
+              <td class="text-start">{{ variada.descripcion }}</td>
+            </tr>
             {% endfor %}
-          </div>
-        </div>
-        <br />
-      </section>
-    </section>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 </div>
+
+<script 
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
 {% endblock %}
