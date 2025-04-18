@@ -17,7 +17,7 @@ from .forms import ConstruccionForm
 from .forms import UserUpdateForm
 from django.contrib import messages
 from django.contrib.auth import logout
-
+import re
 
 # Importación de Modelos
 from .models import Construccion
@@ -25,6 +25,22 @@ from .models import Enemigo
 from .models import Planta
 from .models import Animal
 from .models import Pueblo, UbicacionEspecifica, UbicacionVariada
+from .models import Arma
+from .models import Consumible
+from .models import Historia
+
+from .forms import AnimalForm
+from django.contrib.auth.decorators import user_passes_test
+from .forms import PuebloForm, UbicacionEspecificaForm, UbicacionVariadaForm
+from .forms import EnemigoForm
+from .forms import PlantaForm
+from .forms import ArmaForm
+from .forms import ConsumibleForm
+from .forms import HistoriaForm
+from .forms import UserUpdateForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 
 @login_required
 def enemigos(request):
@@ -38,8 +54,12 @@ def home(request):
 
 @login_required
 def animales(request):
+    edit_mode = request.GET.get("edit") == "true"
     animales = Animal.objects.all()
-    return render(request, "Animales.html", {"animales": animales})
+    return render(request, "Animales.html", {
+        "animales": animales,
+        "edit_mode": edit_mode
+    })
 
 
 @login_required
@@ -56,7 +76,8 @@ def lugarestf(request):
 
 @login_required
 def enemigos(request):
-    return render(request, "Enemigos.html", {"enemigos": enemigos_data})
+    enemigos = Enemigo.objects.all()
+    return render(request, "Enemigos.html", {"enemigos": enemigos})
 
 @login_required
 def construcciones(request):
@@ -73,19 +94,22 @@ def flora(request):
 
 @login_required
 def armas(request):
-    return render(request, "Armas.html", {"armas": armas_data})
+    armas = Arma.objects.all()
+    return render(request, "Armas.html", {"armas": armas})
 
 @login_required
 def consumibles(request):
-    return render(request, "Consumibles.html", {"consumibles": consumibles_data})
+    consumibles = Consumible.objects.all()
+    return render(request, "Consumibles.html", {"consumibles": consumibles})
 
 @login_required
 def historia(request):
-    return render(
-        request,
-        "historia.html",
-        {"historia_slider": historia_slider, "historia_texto": historia_texto},
-    )
+    texto = Historia.objects.filter(texto__isnull=False).first()
+    imagenes = Historia.objects.filter(imagen__isnull=False)
+    return render(request, "historia.html", {
+        "historia_texto": texto,
+        "historia_slider": imagenes
+    })
 
 @login_required
 def forowiki(request):
@@ -94,6 +118,26 @@ def forowiki(request):
 
 def inicio_sesion_wiki(request):
     return render(request, "inicio_sesion_wiki.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @login_required
 def micuentatf(request):
@@ -106,7 +150,7 @@ def micuentatf(request):
 
         if not request.user.check_password(current_password):
             messages.error(request, "Contraseña actual incorrecta.")
-            return redirect("micuentatf")
+            return HttpResponseRedirect(reverse("micuentatf") + "?edit=true&change_password=true")
 
         if form.is_valid():
             user = form.save()
@@ -118,7 +162,8 @@ def micuentatf(request):
             if new_pass1 or new_pass2:
                 if new_pass1 != new_pass2:
                     messages.error(request, "Las contraseñas no coinciden.")
-                    return redirect("micuentatf?edit=true&change_password=true")
+                    url = reverse("micuentatf") + "?edit=true&change_password=true"
+                    return HttpResponseRedirect(url)
                 else:
                     user.set_password(new_pass1)
                     user.save()
@@ -138,6 +183,26 @@ def micuentatf(request):
         "edit_mode": edit_mode,
         "change_password": change_password
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def recuperarcontra(request):
     return render(request, "recuperarcontra.html")
@@ -253,3 +318,259 @@ def clima_chile(request):
         }
 
     return render(request, "clima_chile.html", contexto)
+
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_animal(request, id):
+    animal = get_object_or_404(Animal, id=id)
+
+    if request.method == 'POST':
+        form = AnimalForm(request.POST, instance=animal)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Animal actualizado correctamente.')
+            return redirect('animales')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = AnimalForm(instance=animal)
+
+    return render(request, 'editar_animal.html', {'form': form, 'animal': animal})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_pueblo(request, id):
+    pueblo = get_object_or_404(Pueblo, id=id)
+
+    if request.method == 'POST':
+        form = PuebloForm(request.POST, instance=pueblo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Pueblo actualizado correctamente.')
+            return redirect('lugarestf')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = PuebloForm(instance=pueblo)
+
+    return render(request, 'editar_pueblo.html', {'form': form, 'pueblo': pueblo})
+
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_ubicacion_especifica(request, id):
+    ubicacion = get_object_or_404(UbicacionEspecifica, id=id)
+
+    if request.method == 'POST':
+        form = UbicacionEspecificaForm(request.POST, instance=ubicacion)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ubicación específica actualizada correctamente.')
+            return redirect('lugarestf')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = UbicacionEspecificaForm(instance=ubicacion)
+
+    return render(request, 'editar_ubicacion_especifica.html', {'form': form, 'ubicacion': ubicacion})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_ubicacion_variada(request, id):
+    ubicacion = get_object_or_404(UbicacionVariada, id=id)
+
+    if request.method == 'POST':
+        form = UbicacionVariadaForm(request.POST, instance=ubicacion)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ubicación variada actualizada correctamente.')
+            return redirect('lugarestf')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = UbicacionVariadaForm(instance=ubicacion)
+
+    return render(request, 'editar_ubicacion_variada.html', {'form': form, 'ubicacion': ubicacion})
+
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_enemigo(request, id):
+    enemigo = get_object_or_404(Enemigo, id=id)
+
+    if request.method == 'POST':
+        form = EnemigoForm(request.POST, instance=enemigo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Enemigo actualizado correctamente.')
+            return redirect('enemigos')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = EnemigoForm(instance=enemigo)
+
+    return render(request, 'editar_enemigo.html', {'form': form, 'enemigo': enemigo})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_planta(request, id):
+    planta = get_object_or_404(Planta, id=id)
+
+    if request.method == 'POST':
+        form = PlantaForm(request.POST, instance=planta)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Planta actualizada correctamente.')
+            return redirect('flora')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = PlantaForm(instance=planta)
+
+    return render(request, 'editar_planta.html', {'form': form, 'planta': planta})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_arma(request, id):
+    arma = get_object_or_404(Arma, id=id)
+
+    if request.method == 'POST':
+        form = ArmaForm(request.POST, request.FILES, instance=arma)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Arma actualizada correctamente.')
+            return redirect('armas')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = ArmaForm(instance=arma)
+
+    return render(request, 'editar_arma.html', {'form': form, 'arma': arma})
+
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_consumible(request, id):
+    consumible = get_object_or_404(Consumible, id=id)
+
+    if request.method == 'POST':
+        form = ConsumibleForm(request.POST, instance=consumible)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Consumible actualizado correctamente.')
+            return redirect('consumibles')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = ConsumibleForm(instance=consumible)
+
+    return render(request, 'editar_consumible.html', {
+        'form': form,
+        'consumible': consumible
+    })
+
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_historia(request, id):
+    historia = get_object_or_404(Historia, id=id)
+
+    if request.method == 'POST':
+        form = HistoriaForm(request.POST, request.FILES, instance=historia)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Historia actualizada correctamente.')
+            return redirect('historia')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = HistoriaForm(instance=historia)
+
+    return render(request, 'editar_historia.html', {'form': form, 'historia': historia})
+
+
+def validar_password(password):
+    if len(password) < 8:
+        return False
+    if not re.search(r'[A-Z]', password):
+        return False
+    if not re.search(r'[a-z]', password):
+        return False
+    if not re.search(r'\d', password):
+        return False
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False
+    return True
+
+@login_required
+def micuentatf(request):
+    edit_mode = request.GET.get("edit") == "true"
+    change_password = request.GET.get("change_password") == "true"
+
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=request.user)
+        current_password = request.POST.get("current_password")
+
+        if not request.user.check_password(current_password):
+            messages.error(request, "Contraseña actual incorrecta.")
+            return redirect("micuentatf")
+
+        if form.is_valid():
+            user = form.save()
+
+            # Verifica si se quieren cambiar las contraseñas
+            new_pass1 = request.POST.get("new_password1")
+            new_pass2 = request.POST.get("new_password2")
+
+            if new_pass1 or new_pass2:
+                if new_pass1 != new_pass2:
+                    messages.error(request, "Las contraseñas no coinciden.")
+                    return HttpResponseRedirect(reverse("micuentatf") + "?edit=true&change_password=true")
+
+                elif not validar_password(new_pass1):
+                    messages.error(request, "La nueva contraseña no cumple con los requisitos: al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo.")
+                    return HttpResponseRedirect(reverse("micuentatf") + "?edit=true&change_password=true")
+
+                else:
+                    user.set_password(new_pass1)
+                    user.save()
+                    update_session_auth_hash(request, user)
+                    messages.success(request, "Datos y contraseña actualizados correctamente.")
+            else:
+                user.save()
+                messages.success(request, "Datos actualizados correctamente.")
+
+            return redirect("micuentatf")
+    else:
+        form = UserUpdateForm(instance=request.user)
+
+    return render(request, "micuentatf.html", {
+        "micuenta": request.user,
+        "form": form,
+        "edit_mode": edit_mode,
+        "change_password": change_password
+    })
+
+
+
+
+
+from .forms import EmailRecoveryForm
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+def recuperarcontra(request):
+    mensaje = ""
+    if request.method == "POST":
+        form = EmailRecoveryForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            mensaje = f"✅ Se ha enviado un correo a {email}"
+        else:
+            mensaje = "❌ Correo inválido"
+    else:
+        form = EmailRecoveryForm()
+
+    return render(request, "recuperarcontra.html", {
+        "form": form,
+        "mensaje": mensaje
+    })

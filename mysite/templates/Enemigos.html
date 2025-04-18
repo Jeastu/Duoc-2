@@ -14,9 +14,7 @@
       <div class="center-titulo">
         <h1 id="titulo">Enemigos</h1>
       </div>
-      <div class="w-33 text-center mb-3">
-        <button class="btn btn-dark">Editar</button>
-      </div>
+      
       <p id="caja_bienvenida" class="text-center">
         A continuación, se listan los enemigos presentes en The Forest. Algunos atacan en grupo, otros son más lentos pero peligrosos.
       </p>
@@ -41,11 +39,19 @@
               <td>
                 <img src="{% static enemigo.imagen %}" alt="{{ enemigo.nombre }}" style="max-height: 175px;" class="img-fluid">
               </td>
-              <td>{{ enemigo.tipo }}</td>
+              <td>
+                {{ enemigo.tipo }}
+                {% if request.user.is_staff and enemigo.id %}
+                <br>
+                 <a href="{% url 'editar_enemigo' enemigo.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                {% endif %}
+
+              </td>
               <td>{{ enemigo.descripcion }}</td>
             </tr>
             {% endfor %}
           </tbody>
+          
         </table>
       </div>
     </div>

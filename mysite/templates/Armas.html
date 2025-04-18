@@ -1,57 +1,62 @@
 {% extends 'base.html' %} 
 {% load static %}
 
-{% block title %}Armas-The forest Wiki{% endblock%} 
+{% block title %}Armas - The Forest Wiki{% endblock %} 
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/armas.css' %}" />
 {% endblock %}
 
 {% block content %}
-
 <div id="fondo">
-<section class="colorl">
+  <section class="colorl">
     <div class="letra container">
-        <div class="center-titulo">
-            <h1 id="titulo">Armas</h1>
-        </div>
-        <div class="w-33 text-center mb-3">
-            <button class="btn btn-dark">Editar</button>
-        </div>
-        <p id="caja_bienvenida" class="text-center">
-            Dentro del juego existen muchas armas tanto a distancia como cuerpo a cuerpo, algunas de ellas siendo herramientas
-            que puedes ocupar para matar, construir, escalar, obtener comida, etc.
-        </p>
-        <div class="table-responsive mt-4">
-            <table class="table table-dark table-bordered text-center align-middle">
-                <thead class="table-warning text-dark">
-                    <tr>
-                        <th>Número</th>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for arma in armas %}
-                    <tr>
-                        <td>{{ arma.numero }}</td>
-                        <td>
-                            <img src="{% static arma.imagen %}" class="img-fluid" style="max-height: 80px;" alt="{{ arma.nombre }}">
-                        </td>
-                        <td>{{ arma.nombre }}</td>
-                        <td>{{ arma.tipo }}</td>
-                        <td>{{ arma.descripcion }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+      <div class="center-titulo">
+        <h1 id="titulo">Armas</h1>
+      </div>
+
+
+
+      <p id="caja_bienvenida" class="text-center">
+        Dentro del juego existen muchas armas tanto a distancia como cuerpo a cuerpo, algunas de ellas siendo herramientas
+        que puedes ocupar para matar, construir, escalar, obtener comida, etc.
+      </p>
+
+      <div class="table-responsive mt-4">
+        <table class="table table-dark table-bordered text-center align-middle">
+          <thead class="table-warning text-dark">
+            <tr>
+              <th>Número</th>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Tipo</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for arma in armas %}
+            <tr>
+              <td>{{ arma.numero }}</td>
+              <td>
+                <img src="{% static arma.imagen %}" alt="{{ arma.nombre }}" class="img-fluid" style="max-height: 120px;">
+              </td>
+              <td>
+                {{ arma.nombre }}
+                {% if request.user.is_staff and arma.id %}
+                  <br>
+                  <a href="{% url 'editar_arma' arma.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                {% endif %}
+              </td>
+              <td>{{ arma.tipo }}</td>
+              <td class="text-start">{{ arma.descripcion }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-</section>
+  </section>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
 {% endblock %}

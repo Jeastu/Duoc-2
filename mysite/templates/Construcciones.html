@@ -14,9 +14,7 @@
       <div class="center-titulo">
         <h1 id="titulo">Construcciones</h1>
       </div>
-      <div class="w-33 text-center mb-3">
-        <button class="btn btn-dark">Editar</button>
-      </div>
+      
       <p id="caja_bienvenida" class="text-center">
         A continuación, se listan las construcciones disponibles en The Forest. Algunas ofrecen protección, otras solo decoran el entorno.
       </p>
@@ -45,10 +43,17 @@
                   {% endfor %}
                 </ul>
               </td>
-              <td class="text-start">{{ construccion.descripcion }}</td>
+              <td class="text-start">
+                {{ construccion.descripcion }}
+                {% if request.user.is_staff %}
+                  <br>
+                  <a href="{% url 'editar_construccion' construccion.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                {% endif %}
+              </td>
             </tr>
             {% endfor %}
           </tbody>
+          
         </table>
       </div>
     </div>

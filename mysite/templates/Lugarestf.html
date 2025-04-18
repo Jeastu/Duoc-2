@@ -12,10 +12,16 @@
   <section class="colorl">
     <div class="letra container">
       <div class="text-center mb-4">
-        <h1 class="text-warning">Lugares del Mapa</h1>
-        <p class="text-warning">
-          A continuación, se listan distintos tipos de lugares importantes en el mapa del juego. Se dividen en Pueblos, Ubicaciones Específicas y Variadas.
-        </p>
+        <h1 id="titulo1">Lugares del Mapa</h1>
+      </div>
+
+      <div class="container">
+        <div class="text-center p-3 border border-warning bg-dark rounded shadow-sm">
+          <p id="caja_bienvenida" class="text-warning m-0">
+            A continuación, se listan distintos tipos de lugares importantes en el mapa del juego.
+            Se dividen en Pueblos, Ubicaciones Específicas y Variadas.
+          </p>
+        </div>
       </div>
 
       <!-- Pueblos -->
@@ -35,7 +41,12 @@
               <td>
                 <img src="{% static pueblo.imagen %}" alt="{{ pueblo.nombre }}" style="max-height: 175px;" class="img-fluid">
               </td>
-              <td>{{ pueblo.nombre }}</td>
+              <td>
+                {{ pueblo.nombre }}<br>
+                {% if request.user.is_staff %}
+                  <a href="{% url 'editar_pueblo' pueblo.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                {% endif %}
+              </td>
               <td class="text-start">{{ pueblo.descripcion }}</td>
             </tr>
             {% endfor %}
@@ -60,7 +71,12 @@
               <td>
                 <img src="{% static especifico.imagen %}" alt="{{ especifico.nombre }}" style="max-height: 400px;" class="img-fluid">
               </td>
-              <td>{{ especifico.nombre }}</td>
+              <td>
+                {{ especifico.nombre }}<br>
+                {% if request.user.is_staff %}
+                  <a href="{% url 'editar_ubicacion_especifica' especifico.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                {% endif %}
+              </td>
               <td class="text-start">{{ especifico.descripcion }}</td>
             </tr>
             {% endfor %}
@@ -85,13 +101,19 @@
               <td>
                 <img src="{% static variada.imagen %}" alt="{{ variada.nombre }}" style="max-height: 400px;" class="img-fluid">
               </td>
-              <td>{{ variada.nombre }}</td>
+              <td>
+                {{ variada.nombre }}<br>
+                {% if request.user.is_staff %}
+                  <a href="{% url 'editar_ubicacion_variada' variada.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                {% endif %}
+              </td>
               <td class="text-start">{{ variada.descripcion }}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
+
     </div>
   </section>
 </div>

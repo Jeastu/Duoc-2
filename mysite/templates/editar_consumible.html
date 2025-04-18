@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Editar Consumible{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-light">
+  <h2 class="mb-4">Editar Consumible: {{ consumible.nombre }}</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'consumibles' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
