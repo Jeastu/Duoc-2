@@ -587,6 +587,49 @@ def api_animales(request):
     animales = Animal.objects.all().values('id', 'nombre', 'descripcion', 'imagen')
     return JsonResponse(list(animales), safe=False)
 
+@login_required
+def api_lugarestf(request):
+    mapa_data = {
+        'pueblos': list(Pueblo.objects.all().values('id', 'nombre', 'descripcion', 'imagen')),
+        'ubicaciones_especificas': list(UbicacionEspecifica.objects.all().values('id', 'nombre', 'descripcion', 'imagen')),
+        'ubicaciones_variadas': list(UbicacionVariada.objects.all().values('id', 'nombre', 'descripcion', 'imagen'))
+    }
+    return JsonResponse(mapa_data, safe=False)
+
+@login_required
+def api_enemigos(request):
+    enemigos = Enemigo.objects.all().values('id', 'nombre', 'tipo', 'descripcion', 'imagen')
+    return JsonResponse(list(enemigos), safe=False)
+
+@login_required
+def api_construcciones(request):
+    construcciones = Construccion.objects.all().values('id', 'nombre', 'materiales', 'descripcion', 'imagen')
+    return JsonResponse(list(construcciones), safe=False)
+
+@login_required
+def api_plantas(request):
+    plantas = Planta.objects.all().values('id', 'nombre', 'tipo', 'descripcion', 'imagen')
+    return JsonResponse(list(plantas), safe=False)
+
+@login_required
+def api_armas(request):
+    armas = Arma.objects.all().values('id', 'numero', 'nombre', 'tipo', 'descripcion', 'imagen')
+    return JsonResponse(list(armas), safe=False)
+
+@login_required
+def api_consumibles(request):
+    consumibles = Consumible.objects.all().values(
+        'id', 'nombre', 'imagen',
+        'hambre_normal', 'agua_normal', 'vida_normal', 'energia_normal',
+        'hambre_dificil', 'agua_dificil', 'vida_dificil', 'energia_dificil'
+    )
+    return JsonResponse(list(consumibles), safe=False)
+
+@login_required
+def api_historia(request):
+    historia = Historia.objects.all().values('id', 'imagen', 'texto')
+    return JsonResponse(list(historia), safe=False)
+
 
 
 
@@ -693,4 +736,3 @@ def borrar_comentario(request, id):
     comentario.delete()
     messages.success(request, "Comentario eliminado.")
     return redirect("forowiki")
-

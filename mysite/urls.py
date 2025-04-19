@@ -51,10 +51,18 @@ urlpatterns = [
     path('consumible/<int:id>/editar/', views.editar_consumible, name='editar_consumible'),
     path('historia/<int:id>/editar/', views.editar_historia, name='editar_historia'),
     path('api/animales/', views.api_animales, name='api_animales'),
-
-
-
-
-
-
+    path('api/lugarestf/', views.api_lugarestf, name='api_lugarestf'),
+    path('api/enemigos/', views.api_enemigos, name='api_enemigos'),
+    path('api/construcciones/', views.api_construcciones, name='api_construcciones'),
+    path('api/plantas/', views.api_plantas, name='api_plantas'),
+    path('api/armas/', views.api_armas, name='api_armas'),
+    path('api/consumibles/', views.api_consumibles, name='api_consumibles'),
+    path('api/historia/', views.api_historia, name='api_historia'),
 ]
+
+
+
+
+
+
+
