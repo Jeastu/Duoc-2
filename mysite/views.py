@@ -588,17 +588,17 @@ def api_animales(request):
     return JsonResponse(list(animales), safe=False)
 
 @login_required
-def api_mapa(request):
-    mapa_data = {
+def api_lugarestf(request):
+    data = {
         'pueblos': list(Pueblo.objects.all().values('id', 'nombre', 'descripcion', 'imagen')),
         'ubicaciones_especificas': list(UbicacionEspecifica.objects.all().values('id', 'nombre', 'descripcion', 'imagen')),
         'ubicaciones_variadas': list(UbicacionVariada.objects.all().values('id', 'nombre', 'descripcion', 'imagen'))
     }
-    return JsonResponse(mapa_data, safe=False)
+    return JsonResponse(data, safe=False)
 
 @login_required
 def api_enemigos(request):
-    enemigos = Enemigo.objects.all().values('id', 'nombre', 'tipo', 'descripcion', 'imagen')
+    enemigos = Enemigo.objects.all().values('id', 'nombre', 'descripcion', 'imagen')
     return JsonResponse(list(enemigos), safe=False)
 
 @login_required
