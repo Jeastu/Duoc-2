@@ -588,7 +588,7 @@ def api_animales(request):
     return JsonResponse(list(animales), safe=False)
 
 @login_required
-def api_mapa(request):
+def api_lugarestf(request):
     mapa_data = {
         'pueblos': list(Pueblo.objects.all().values('id', 'nombre', 'descripcion', 'imagen')),
         'ubicaciones_especificas': list(UbicacionEspecifica.objects.all().values('id', 'nombre', 'descripcion', 'imagen')),
