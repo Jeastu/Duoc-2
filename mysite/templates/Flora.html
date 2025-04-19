@@ -14,37 +14,44 @@
         <div class="center-titulo">
             <h1 id="titulo">Flora</h1>
         </div>
-        <div class="w-33 text-center mb-3">
-            <button class="btn btn-dark">Editar</button>
-        </div>
+        
         <p id="caja_bienvenida" class="text-center">
           A continuación, se listan las plantas y hongos que puedes encontrar en The Forest. Algunas son curativas, otras venenosas.
         </p>
 
         <div class="table-responsive mt-4">
           <table class="table text-warning border border-secondary text-center align-middle">
-              <thead class="table-warning text-dark">
-                  <tr>
-                      <th>N°</th>
-                      <th>Imagen</th>
-                      <th>Tipo</th>
-                      <th>Descripción</th>
-                  </tr>
-              </thead>
-              <tbody>
-                {% for planta in plantas %}
-                  <tr>
-                      <td>{{ forloop.counter }}</td>
-                      <td>
-                          <img src="{% static planta.imagen %}" alt="{{ planta.nombre }}" style="max-height: 80px;" class="img-fluid">
-                      </td>
-                      <td>{{ planta.tipo }}</td>
-                      <td>{{ planta.descripcion }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
+            <thead class="table-warning text-dark">
+              <tr>
+                <th>N°</th>
+                <th>Imagen</th>
+                <th>Nombre</th> <!-- Nueva columna -->
+                <th>Tipo</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for planta in plantas %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <img src="{% static planta.imagen %}" alt="{{ planta.nombre }}" style="max-height: 80px;" class="img-fluid">
+                </td>
+                <td>{{ planta.nombre }}</td> <!-- Muestra el nombre -->
+                <td>
+                  {{ planta.tipo }}
+                  {% if request.user.is_staff %}
+                    <br>
+                    <a href="{% url 'editar_planta' planta.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                  {% endif %}
+                </td>
+                <td class="text-start">{{ planta.descripcion }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
           </table>
         </div>
+        
     </div>
   </section>
 </div>

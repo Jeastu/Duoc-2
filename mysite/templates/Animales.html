@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 {% load static %}
 
-{% block title %}Animales-The forest Wiki{% endblock%} 
+{% block title %}Animales - The Forest Wiki{% endblock %} 
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/Enemigos.css' %}" />
@@ -15,68 +15,52 @@
         <div class="center-titulo">
           <h1 id="titulo">Animales</h1>
         </div>
-        <div class="container">
-          <div class="w-33">
-            <div class="center">
-              <button class="btn btn-dark">Editar</button>
-            </div>
-          </div>
+
+        
+
           <div class="center">
             <p id="caja_bienvenida">
-              La península de The Forest está poblada de muchos tipos diferentes
-              de animales . Estos animales se convierten en una parte esencial
-              de la supervivencia del jugador ya que algunos de ellos pueden ser
-              explotados para obtener comida , piel u otros materiales de
-              artesanía .
+              La península de The Forest está poblada de muchos tipos diferentes de animales.
+              Estos animales se convierten en una parte esencial de la supervivencia del jugador ya que algunos de ellos pueden ser
+              explotados para obtener comida, piel u otros materiales de artesanía.
             </p>
           </div>
         </div>
-      </div>
-      <div class="container">
-        <div class="d-block d-sm-block d-md-none">
-          <h5 class="center margin-tabla">Orden de datos:</h5>
 
-          <p class="center">
-            1er bloque = Animal<br />2do bloque = Hostilidad animal<br />3er
-            bloque = Descripcion
-          </p>
-        </div>
-        <div class="margin-tabla">
-          <div class="row">
-            <div
-              class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
-            >
-              <h5>Animal</h5>
-            </div>
-            <div
-              class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
-            >
-              <h5>Hostilidad animal</h5>
-            </div>
-            <div
-              class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
-            >
-              <h5>Descripcion</h5>
-            </div>
+        <div class="container">
+          <div class="d-block d-sm-block d-md-none">
+            <h5 class="center margin-tabla">Orden de datos:</h5>
+            <p class="center">
+              1er bloque = Animal<br />2do bloque = Hostilidad animal<br />3er bloque = Descripción
+            </p>
           </div>
-          <div class="letra">
+
+          <div class="margin-tabla">
+            <div class="row">
+              <div class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center">
+                <h5>Animal</h5>
+              </div>
+              <div class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center">
+                <h5>Hostilidad animal</h5>
+              </div>
+              <div class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center">
+                <h5>Descripción</h5>
+              </div>
+            </div>
+
             {% for animal in animales %}
             <div class="row">
-              <div
-                class="col-sm-4 border border-secondary fondo-tabla center separar-arriba"
-              >
+              <div class="col-sm-4 border border-secondary fondo-tabla center separar-arriba">
                 <p class="centrart">
-                  <img src="{% static animal.imagen %}" class="imagen img-fluid" alt="{{ animal.nombre }}">
-
-
-                  /><br />
+                  <img src="{% static animal.imagen %}" class="imagen img-fluid" alt="{{ animal.nombre }}"><br />
                   {{ animal.nombre }}
                 </p>
+                {% if request.user.is_staff %}
+                <a href="{% url 'editar_animal' animal.id %}" class="btn btn-warning btn-sm mt-2">Editar</a>
+                {% endif %}
               </div>
               <div class="col-sm-4 border border-secondary fondo-tabla center">
-                <p class="center-titulo tamannioletrat">
-                  {{ animal.hostilidad }}
-                </p>
+                <p class="center-titulo tamannioletrat">{{ animal.hostilidad }}</p>
               </div>
               <div class="col-sm-4 border border-secondary fondo-tabla center">
                 <p>{{ animal.descripcion }}</p>

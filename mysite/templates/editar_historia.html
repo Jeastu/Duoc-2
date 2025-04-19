@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Historia{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-light">
+  <h2 class="mb-4">Editar Historia</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    <a href="{% url 'historia' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Planta{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-light">
+  <h2 class="mb-4">Editar Planta: {{ planta.nombre }}</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'flora' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
