@@ -50,6 +50,8 @@ urlpatterns = [
     path('arma/<int:id>/editar/', views.editar_arma, name='editar_arma'),
     path('consumible/<int:id>/editar/', views.editar_consumible, name='editar_consumible'),
     path('historia/<int:id>/editar/', views.editar_historia, name='editar_historia'),
+    path('api/animales/', views.api_animales, name='api_animales'),
+
 
 
 

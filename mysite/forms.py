@@ -10,7 +10,7 @@ from .models import Planta
 from .models import Arma
 from .models import Consumible
 from .models import Historia
-
+from .models import Comentario
 import re
 
 class CustomUserCreationForm(UserCreationForm):
@@ -46,6 +46,15 @@ class EditUserForm(forms.ModelForm):
         fields = ['username', 'email']
         
 class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'invalid': 'Introduce un correo electrónico válido.',
+            'required': 'Este campo es obligatorio.'
+        }
+    )
+
     class Meta:
         model = User
         fields = ['username', 'email']
@@ -200,3 +209,25 @@ class EmailRecoveryForm(forms.Form):
         label="Correo electrónico",
         widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "tuemail@ejemplo.com"})
     )
+        
+
+
+
+
+        
+
+
+class ComentarioForoForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['contenido']
+        widgets = {
+            'contenido': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escribe tu comentario...',
+                'rows': 4
+            }),
+        }
+        labels = {
+            'contenido': ''
+        }

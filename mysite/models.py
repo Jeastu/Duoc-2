@@ -102,3 +102,18 @@ class Historia(models.Model):
 
     def __str__(self):
         return f"Historia: {self.imagen or 'Texto narrativo'}"
+
+
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Comentario(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    contenido = models.TextField()
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.fecha.strftime('%Y-%m-%d %H:%M')}"
+

@@ -40,6 +40,8 @@ from .forms import HistoriaForm
 from .forms import UserUpdateForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .models import Comentario
+from .forms import ComentarioForoForm
 
 
 @login_required
@@ -574,3 +576,121 @@ def recuperarcontra(request):
         "form": form,
         "mensaje": mensaje
     })
+
+
+
+
+from django.http import JsonResponse
+
+@login_required
+def api_animales(request):
+    animales = Animal.objects.all().values('id', 'nombre', 'descripcion', 'imagen')
+    return JsonResponse(list(animales), safe=False)
+
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from .models import Comentario
+
+@login_required
+def forowiki(request):
+    if request.method == "POST":
+        if "borrar_id" in request.POST:
+            comentario_id = request.POST.get("borrar_id")
+            comentario = get_object_or_404(Comentario, id=comentario_id)
+            if request.user == comentario.usuario or request.user.is_staff:
+                comentario.delete()
+                messages.success(request, "Comentario eliminado.")
+        else:
+            form = ComentarioForoForm(request.POST)
+            if form.is_valid():
+                nuevo_comentario = form.save(commit=False)
+                nuevo_comentario.usuario = request.user
+                nuevo_comentario.save()
+                messages.success(request, "Comentario publicado.")
+        return redirect("forowiki")
+
+    comentarios = Comentario.objects.all().order_by("-fecha")
+    form = ComentarioForoForm()
+    return render(request, "forowiki.html", {
+        "comentarios": comentarios,
+        "form": form
+    })
+
+
+
+
+
+
+
+from django.shortcuts import redirect
+from .models import Comentario
+from .forms import ComentarioForoForm
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def editar_comentario(request, id):
+    comentario = get_object_or_404(Comentario, id=id)
+
+    if request.user != comentario.usuario and not request.user.is_staff:
+        return redirect('forowiki')
+
+    if request.method == "POST":
+        form = ComentarioForoForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('forowiki')
+    else:
+        form = ComentarioForoForm(instance=comentario)
+
+    return render(request, "editar_comentario.html", {"form": form})
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Comentario
+from .forms import ComentarioForoForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+@login_required
+def editar_comentario(request, id):
+    comentario = get_object_or_404(Comentario, id=id)
+
+    # Solo el autor o el staff puede editar
+    if request.user != comentario.usuario and not request.user.is_staff:
+        messages.error(request, "No tienes permiso para editar este comentario.")
+        return redirect("forowiki")
+
+    if request.method == "POST":
+        form = ComentarioForoForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Comentario actualizado.")
+            return redirect("forowiki")
+    else:
+        form = ComentarioForoForm(instance=comentario)
+
+    return render(request, "editar_comentario.html", {"form": form, "comentario": comentario})
+
+
+
+
+@login_required
+def borrar_comentario(request, id):
+    comentario = get_object_or_404(Comentario, id=id)
+
+    # Solo el autor o el staff puede borrar
+    if request.user != comentario.usuario and not request.user.is_staff:
+        messages.error(request, "No tienes permiso para borrar este comentario.")
+        return redirect("forowiki")
+
+    comentario.delete()
+    messages.success(request, "Comentario eliminado.")
+    return redirect("forowiki")
+
