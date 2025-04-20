@@ -736,3 +736,36 @@ def borrar_comentario(request, id):
     comentario.delete()
     messages.success(request, "Comentario eliminado.")
     return redirect("forowiki")
+
+
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Comentario
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def like_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    
+    if request.user in comentario.likes.all():
+        comentario.likes.remove(request.user)
+    else:
+        comentario.likes.add(request.user)
+        comentario.dislikes.remove(request.user)  # Evita tener ambos
+
+    return redirect('forowiki')
+
+
+@login_required
+def dislike_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    
+    if request.user in comentario.dislikes.all():
+        comentario.dislikes.remove(request.user)
+    else:
+        comentario.dislikes.add(request.user)
+        comentario.likes.remove(request.user)
+
+    return redirect('forowiki')
+
+
