@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar comentario - The Forest Wiki{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/foro.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="fondo1">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-10 col-md-8 col-lg-6">
+        <h1 class="text-warning text-center mb-4 border border-warning p-2 rounded">Editar Comentario</h1>
+
+        <form method="post" class="form_comentarios d-flex justify-content-end flex-wrap">
+          {% csrf_token %}
+          {{ form.contenido }}
+          <button type="submit" class="btn btn-success mt-3">Guardar cambios</button>
+          <a href="{% url 'forowiki' %}" class="btn btn-secondary mt-3 ms-2">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

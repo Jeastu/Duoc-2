@@ -33,12 +33,34 @@
             </p>
             <p>{{ comentario.contenido }}</p>
 
+            <!-- 👍👎 visibles para todos -->
+            <div class="acciones d-flex align-items-center gap-2 mt-2">
+                <form action="{% url 'like_comentario' comentario.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success btn-sm">
+                        👍 {{ comentario.total_likes }}
+                    </button>
+                </form>
+
+                <form action="{% url 'dislike_comentario' comentario.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        👎 {{ comentario.total_dislikes }}
+                    </button>
+                </form>
+            </div>
+
+            <!-- Editar y borrar solo si es el autor o staff -->
             {% if user == comentario.usuario or user.is_staff %}
-            <form method="post" style="display: inline;">
-                {% csrf_token %}
-                <input type="hidden" name="borrar_id" value="{{ comentario.id }}">
-                <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
-            </form>
+            <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                <a href="{% url 'editar_comentario' comentario.id %}" class="btn btn-sm btn-primary">Editar</a>
+
+                <form method="post" action="" class="d-inline ms-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="borrar_id" value="{{ comentario.id }}">
+                    <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+                </form>
+            </div>
             {% endif %}
         </div>
     </div>

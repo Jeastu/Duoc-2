@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 class Construccion(models.Model):
@@ -106,14 +108,18 @@ class Historia(models.Model):
 
 
 
-from django.db import models
-from django.contrib.auth.models import User
-
 class Comentario(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     contenido = models.TextField()
     fecha = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='comentarios_likes', blank=True)
+    dislikes = models.ManyToManyField(User, related_name='comentarios_dislikes', blank=True)
+
+    def total_likes(self):
+        return self.likes.count()
+
+    def total_dislikes(self):
+        return self.dislikes.count()
 
     def __str__(self):
-        return f"{self.usuario.username} - {self.fecha.strftime('%Y-%m-%d %H:%M')}"
-
+        return f'{self.usuario.username}: {self.contenido[:30]}...'
